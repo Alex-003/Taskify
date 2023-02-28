@@ -1,4 +1,9 @@
 body {
+  --primary-color: #FF5722;
+  --secondary-color: #E65100;
+  --tertiary-color: #212121;
+  --quaternary-color: #FFFFFF;
+  --accent-color: #FBC02D;
   background-color: #F6F6F6;
   color: #333333;
   font-family: 'Roboto', sans-serif;
@@ -9,7 +14,7 @@ body {
   background-color: #FFFFFF;
   border-radius: 10px;
   padding: 20px;
-  margin: 20px auto;
+  margin: 20px auto 0;
   max-width: 600px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -18,7 +23,7 @@ body {
   text-align: center;
   font-size: 2rem;
   margin: 0;
-  padding: 10px 0;
+  padding: 1rem 0;
 }
 
 .todo-form {
@@ -37,7 +42,7 @@ body {
 }
 
 .add-btn {
-  background-color: #F57C00;
+  background-color: var(--primary-color);
   border: none;
   color: #FFFFFF;
   padding: 10px;
@@ -48,7 +53,7 @@ body {
 }
 
 .add-btn:hover {
-  background-color: #E65100;
+  background-color: var(--secondary-color);
 }
 
 .todo-list {
@@ -61,8 +66,13 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #CCCCCC;
+  background-color: var(--quaternary-color);
+  border-bottom: 1px solid var(--tertiary-color);
   padding: 10px;
+}
+
+.todo-list li:hover {
+  background-color: var(--tertiary-color);
 }
 
 .view-todo {
@@ -83,7 +93,7 @@ li {
 }
 
 .edit-btn {
-  background-color: #1A237E;
+  background-color: var(--tertiary-color);
   border: none;
   color: #FFFFFF;
   padding: 5px;
@@ -95,11 +105,11 @@ li {
 }
 
 .edit-btn:hover {
-  background-color: #0D47A1;
+  background-color: var(--secondary-color);
 }
 
 .delete-btn {
-  background-color: #F44336;
+  background-color: var(--secondary-color);
   border: none;
   color: #FFFFFF;
   padding: 5px;
@@ -110,7 +120,7 @@ li {
 }
 
 .delete-btn:hover {
-  background-color: #D32F2F;
+  background-color: var(--primary-color);
 }
 
 .edit-todo {
@@ -130,7 +140,7 @@ li {
 }
 
 .save-btn {
-  background-color: #F57C00;
+  background-color: var(--primary-color);
   border: none;
   color: #FFFFFF;
   padding: 5px;
@@ -139,15 +149,20 @@ li {
 }
 
 .save-btn:hover {
-  background-color: #d89b00;
+  background-color: var(--accent-color);
 }
 
 .cancel-btn {
-  background-color: #d89b00;
+  background-color: var(--tertiary-color);
+  color: var(--quaternary-color);
   border: none;
-  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
+}
+
+.cancel-btn:hover {
+  background-color: var(--secondary-color);
+  color: var(--quaternary-color);
 }
 
 .completed {
@@ -155,8 +170,31 @@ li {
   color: gray;
 }
 
+.sort-by {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.sort-by label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.sort-by select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--tertiary-color);
+  font-size: 16px;
+  outline: none;
+}
+
+.sort-by select:focus {
+  border: 1px solid var(--accent-color);
+}
+
 @media screen and (max-width: 480px) {
-  .todo-title {
+  .title {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
   }

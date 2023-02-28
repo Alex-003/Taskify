@@ -68,7 +68,7 @@ function Todo() {
 
   return (
     <div className="container">
-      <h1 className="title">Taskify</h1>
+      <h1 className="title">TASKIFY</h1>
       <div className="todo-form">
         <form>
           <input
