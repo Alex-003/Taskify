@@ -7,12 +7,14 @@ function Todo() {
   const [editTodoIndex, setEditTodoIndex] = useState(null);
   const [editTodoValue, setEditTodoValue] = useState("");
   const [sortBy, setSortBy] = useState("name");
+  const [dueDate, setDueDate] = useState("");
 
   const addTodo = (event) => {
     event.preventDefault();
     if (input.trim() !== "") {
-      setTodos([...todos, { task: input, completed: false }]);
+      setTodos([...todos, { task: input, dueDate: dueDate, completed: false }]);
       setInput("");
+      setDueDate("");
     }
   };
 
@@ -21,7 +23,7 @@ function Todo() {
     newTodos.splice(index, 1);
     setTodos(newTodos);
   };
- 
+
   const saveEditTodo = (index) => {
     let newTodos = [...todos];
     newTodos[index].task = editTodoValue;
@@ -78,6 +80,13 @@ function Todo() {
             onChange={(event) => setInput(event.target.value)}
             placeholder="What do you have to do?"
           />
+          <input
+            className="input"
+            type="date"
+            value={dueDate}
+            onChange={(event) => setDueDate(event.target.value)}
+            placeholder="Due Date"
+          />
           <button className="add-btn" onClick={addTodo}>
             Add
           </button>
@@ -85,7 +94,10 @@ function Todo() {
       </div>
       <div className="sort-by">
         <label>Sort by:</label>
-        <select value={sortBy} onChange={(event) => sortByKey(event.target.value)}>
+        <select
+          value={sortBy}
+          onChange={(event) => sortByKey(event.target.value)}
+        >
           <option value="name">Name</option>
           <option value="dueDate">Due Date</option>
           <option value="alphabetical">Alphabetical</option>
@@ -108,36 +120,36 @@ function Todo() {
                 >
                   Save
                 </button>
-                <button
-                  className="cancel-btn"
-                  onClick={() => cancelEditTodo()}
-                >
+                <button className="cancel-btn" onClick={() => cancelEditTodo()}>
                   Cancel
                 </button>
               </div>
             ) : (
-  <div className="view-todo">
-  <p onClick={() => toggleComplete(index)}>{todo.task}</p>
-  {todo.completed && <span className="check-mark">&#10004;</span>}
-  <div className="buttons">
-    <button
-      className="edit-btn"
-      onClick={() => {
-        setEditTodoIndex(index);
-        setEditTodoValue(todo.task);
-      }}
-    >
-      Edit
-    </button>
-    <button
-      className="delete-btn"
-      onClick={() => deleteTodo(index)}
-    >
-      Delete
-    </button>
-  </div>
-</div>
+              <div className="view-todo">
+                <p onClick={() => toggleComplete(index)}>{todo.task}</p>
+                {todo.completed && <span className="check-mark">&#10004;</span>}
+                <div className="buttons">
+                  <button
+                    className="edit-btn"
+                    onClick={() => {
+                      setEditTodoIndex(index);
+                      setEditTodoValue(todo.task);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteTodo(index)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
             )}
+            <div className="due-date">
+              <p>{todo.dueDate}</p>
+            </div>
           </li>
         ))}
       </ul>

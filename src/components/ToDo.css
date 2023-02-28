@@ -199,11 +199,11 @@ li {
     margin-bottom: 0.5rem;
   }
 
-  .todo-input {
+  .input {
     font-size: 1rem;
   }
 
-  .todo-button {
+  .add-btn {
     font-size: 1rem;
     padding: 0.3rem 0;
   }
