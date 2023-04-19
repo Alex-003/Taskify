@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ToDo.css";
 
 function Todo() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(
+    JSON.parse(localStorage.getItem("todos")) || []
+  );
   const [input, setInput] = useState("");
   const [editTodoIndex, setEditTodoIndex] = useState(null);
   const [editTodoValue, setEditTodoValue] = useState("");
   const [sortBy, setSortBy] = useState("name");
-  const [dueDate, setDueDate] = useState("");
-
+ 
+  //accessibility
+  const [dyslexicMode, setDyslexicMode] = useState(
+    JSON.parse(localStorage.getItem("dyslexicMode")) || false
+  );
+  const [colorblindMode, setColorblindMode] = useState(
+    JSON.parse(localStorage.getItem("colorblindMode")) || false
+  );
+  
   const addTodo = (event) => {
     event.preventDefault();
     if (input.trim() !== "") {
-      setTodos([...todos, { task: input, dueDate: dueDate, completed: false }]);
+      setTodos([...todos, { task: input, completed: false }]);
       setInput("");
-      setDueDate("");
+      localStorage.setItem(
+        "todos",
+        JSON.stringify([...todos, { task: input, completed: false }])
+      );
     }
   };
 
@@ -22,6 +34,7 @@ function Todo() {
     let newTodos = [...todos];
     newTodos.splice(index, 1);
     setTodos(newTodos);
+    localStorage.setItem("todos", JSON.stringify(newTodos));
   };
 
   const saveEditTodo = (index) => {
@@ -30,17 +43,15 @@ function Todo() {
     setTodos(newTodos);
     setEditTodoIndex(null);
     setEditTodoValue("");
+    localStorage.setItem(
+      "todos",
+      JSON.stringify([...todos, { task: input, completed: false }])
+    );
   };
 
   const cancelEditTodo = () => {
     setEditTodoIndex(null);
     setEditTodoValue("");
-  };
-
-  const toggleComplete = (index) => {
-    let newTodos = [...todos];
-    newTodos[index].completed = !newTodos[index].completed;
-    setTodos(newTodos);
   };
 
   const sortByKey = (key) => {
@@ -49,16 +60,7 @@ function Todo() {
       case "name":
         newTodos.sort((a, b) => a.task.localeCompare(b.task));
         break;
-      case "dueDate":
-        newTodos.sort((a, b) =>
-          a.dueDate === null
-            ? 1
-            : b.dueDate === null
-            ? -1
-            : a.dueDate.localeCompare(b.dueDate)
-        );
-        break;
-      case "alphabetical":
+      case "reverse":
         newTodos.sort((a, b) => a.task.localeCompare(b.task)).reverse();
         break;
       default:
@@ -68,9 +70,56 @@ function Todo() {
     setSortBy(key);
   };
 
+  const dyslexia = () => {
+    setDyslexicMode(!dyslexicMode);
+  };
+
+  const colorblind = () => {
+    setColorblindMode(!colorblindMode);
+  };
+
+  //Retrieve from local the todos and access saved
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    const storedTodos = JSON.parse(localStorage.getItem("todos"));
+    if (storedTodos) {
+      setTodos(storedTodos);
+    }
+
+    const storedDyslexicMode = JSON.parse(localStorage.getItem("dyslexicMode"));
+    if (storedDyslexicMode !== null) {
+      setDyslexicMode(storedDyslexicMode);
+    }
+
+    const storedColorblindMode = JSON.parse(
+      localStorage.getItem("colorblindMode")
+    );
+    if (storedColorblindMode !== null) {
+      setColorblindMode(storedColorblindMode);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("dyslexicMode", JSON.stringify(dyslexicMode));
+    localStorage.setItem("colorblindMode", JSON.stringify(colorblindMode));
+  }, [dyslexicMode, colorblindMode]);
+
   return (
-    <div className="container">
+    <div
+      className={`container ${colorblindMode ? "colorblind" : ""} ${
+        dyslexicMode ? "dyslexia" : ""
+      }  `}
+    >
+      <div className="accessibility-buttons">
+        <button className="dyslexia" onClick={dyslexia}>
+          Dyslexic?
+        </button>
+        <button className="color-blind" onClick={colorblind}>
+          Color-blind?
+        </button>
+      </div>
       <h1 className="title">TASKIFY</h1>
+      <h2 className="subtitle"> Put order to your life</h2>
       <div className="todo-form">
         <form>
           <input
@@ -80,15 +129,9 @@ function Todo() {
             onChange={(event) => setInput(event.target.value)}
             placeholder="What do you have to do?"
           />
-          <input
-            className="input"
-            type="date"
-            value={dueDate}
-            onChange={(event) => setDueDate(event.target.value)}
-            placeholder="Due Date"
-          />
+
           <button className="add-btn" onClick={addTodo}>
-            Add
+            Add Task
           </button>
         </form>
       </div>
@@ -99,8 +142,8 @@ function Todo() {
           onChange={(event) => sortByKey(event.target.value)}
         >
           <option value="name">Name</option>
-          <option value="dueDate">Due Date</option>
-          <option value="alphabetical">Alphabetical</option>
+
+          <option value="reverse">Reverse-Alphabetical</option>
         </select>
       </div>
       <ul className="todo-list">
@@ -126,8 +169,8 @@ function Todo() {
               </div>
             ) : (
               <div className="view-todo">
-                <p onClick={() => toggleComplete(index)}>{todo.task}</p>
-                {todo.completed && <span className="check-mark">&#10004;</span>}
+                <p>{todo.task}</p>
+                {todo.completed}
                 <div className="buttons">
                   <button
                     className="edit-btn"
@@ -147,9 +190,6 @@ function Todo() {
                 </div>
               </div>
             )}
-            <div className="due-date">
-              <p>{todo.dueDate}</p>
-            </div>
           </li>
         ))}
       </ul>

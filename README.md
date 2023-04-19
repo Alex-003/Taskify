@@ -17,3 +17,11 @@
 - edit functionality using editTodoIndex and editTodoValue state variables.
 
 - Tried to use conventional names and follow the best practices of React to be clean and easy to understand.
+
+
+# Accessibility 
+
+- Dyslexia button: 
+
+
+- Daltonic button: 

@@ -1,55 +1,87 @@
+:root {
+  --primary-color: hsl(210, 45%, 70%);
+  --secondary-color: hsl(50, 100%, 60%);
+  --tertiary-color: hsl(0, 0%, 70%);
+  --button: hsl(180, 45%, 70%);
+  --contrast: hsl(0, 100%, 100%);
+}
+
 body {
-  --primary-color: #FF5722;
-  --secondary-color: #E65100;
-  --tertiary-color: #212121;
-  --quaternary-color: #FFFFFF;
-  --accent-color: #FBC02D;
-  background-color: #F6F6F6;
-  color: #333333;
-  font-family: 'Roboto', sans-serif;
+  background-color: var(--primary-color);
+  font-family: "Roboto", sans-serif;
   margin: 0;
+  padding: 0;
 }
 
 .container {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 10px;
   padding: 20px;
-  margin: 20px auto 0;
-  max-width: 600px;
+  margin: 30px auto;
+  max-width: 800px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .title {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3rem;
   margin: 0;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
+  color: var(--tertiary-color);
+  text-shadow: 3px 3px var(--secondary-color);
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0.5rem;
+  color: var(--tertiary-color);
+  text-shadow: 1px 1px var(--secondary-color);
 }
 
 .todo-form {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .input {
+  grid-column: 1 / span 2;
+  margin-bottom: 10px;
   border: none;
   border-radius: 5px;
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.151);
+  background-color: var(--primary-color);
+  color: var(--contrast);
+  width: 90%;
+  max-width: 56.25rem;
+}
+
+.input::placeholder {
+  color: var(--contrast);
 }
 
 .add-btn {
-  background-color: var(--primary-color);
+  justify-self: center;
+  background-color: var(--button);
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 10px;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+  max-width: 600px;
 }
 
 .add-btn:hover {
@@ -66,13 +98,14 @@ li {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--quaternary-color);
+  background-color: var(--primary-color);
   border-bottom: 1px solid var(--tertiary-color);
   padding: 10px;
+  transition: background-color 0.3s;
 }
 
-.todo-list li:hover {
-  background-color: var(--tertiary-color);
+li:hover {
+  background-color: var(--primary-color);
 }
 
 .view-todo {
@@ -84,7 +117,9 @@ li {
 
 .view-todo p {
   font-size: 1rem;
-  margin: 0;
+  margin: 0.4rem;
+  color: var(--secondary-color);
+  font-weight: bold;
 }
 
 .buttons {
@@ -95,7 +130,7 @@ li {
 .edit-btn {
   background-color: var(--tertiary-color);
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
   font-size: 0.8rem;
@@ -111,7 +146,7 @@ li {
 .delete-btn {
   background-color: var(--secondary-color);
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
   font-size: 0.8rem;
@@ -137,15 +172,19 @@ li {
   font-size: 1rem;
   margin-right: 10px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--quaternary-color);
+  color: var(--tertiary-color);
 }
 
 .save-btn {
   background-color: var(--primary-color);
   border: none;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 5px;
   border-radius: 5px;
   font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .save-btn:hover {
@@ -158,6 +197,8 @@ li {
   border: none;
   padding: 5px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .cancel-btn:hover {
@@ -173,12 +214,16 @@ li {
 .sort-by {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .sort-by label {
   margin-right: 10px;
   font-weight: bold;
+  color: var(--tertiary-color);
 }
 
 .sort-by select {
@@ -187,24 +232,92 @@ li {
   border: 1px solid var(--tertiary-color);
   font-size: 16px;
   outline: none;
+  background-color: var(--quaternary-color);
+  color: var(--tertiary-color);
 }
 
-.sort-by select:focus {
+.date label {
+  margin-right: 10px;
+  font-weight: bold;
+  color: var(--tertiary-color);
+}
+
+.date input[type="date"] {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid var(--tertiary-color);
+  font-size: 16px;
+  outline: none;
+  background-color: var(--quaternary-color);
+  color: var(--tertiary-color);
+}
+
+.date input[type="date"]:focus {
   border: 1px solid var(--accent-color);
 }
 
+@media screen and (max-width: 768px) {
+  .container {
+    max-width: 600px;
+  }
+}
+
 @media screen and (max-width: 480px) {
-  .title {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
+  .container {
+    max-width: 400px;
   }
 
-  .input {
-    font-size: 1rem;
-  }
 
-  .add-btn {
-    font-size: 1rem;
-    padding: 0.3rem 0;
-  }
+}
+
+/* Dyslexic-friendly font stack */
+
+.accessibility-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.accessibility-buttons button {
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--secondary-color);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  max-width: 600px;
+  margin: 10px;
+  transition: background-color 0.4s;
+}
+
+.accessibility-buttons button:hover {
+  background-color: var(--tertiary-color);
+}
+
+.dyslexia * {
+  font-family: "Lexend", "OpenDyslexic", "Dyslexie", "Lexie Readable",
+    sans-serif;
+  line-height: 1.5em;
+  font-size: 1.2em;
+  letter-spacing: 0.05em;
+  word-spacing: 0.2em;
+}
+
+.container.dyslexia h1 {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+.container.dyslexia h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* color-blind friendly color pallette */
+
+.container.colorblind * {
+  --primary-color: #7030a0;
+  --secondary-color: #ffcb00;
+  --tertiary-color: #00b0f0;
+  --button: #c02600;
 }
